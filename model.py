@@ -62,7 +62,7 @@ class Model():
             print(state)
             outputs_state_tensor = outputs_tensor[:, -1, :]
             self.outputs_state_tensor = outputs_state_tensor
-            self.state_tensor = state
+            self.state_tensor = outputs_state_tensor
 
         # concate every time step
         seq_output = tf.concat(outputs_tensor, 1)
