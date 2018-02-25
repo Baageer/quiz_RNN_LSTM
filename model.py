@@ -52,14 +52,14 @@ class Model():
 
             init_state = cell.zero_state(self.batch_size, dtype=tf.float32)
 
-            print('xxxxxxxx', self.X)
-            print('yyyyyyyy', self.Y)
+            #print('xxxxxxxx', self.X)
+            #print('yyyyyyyy', self.Y)
             rnn_inputs = tf.one_hot(self.X, self.num_words)
-            print('rnn_inputs: ', rnn_inputs.shape)
+            #print('rnn_inputs: ', rnn_inputs.shape)
 
             outputs_tensor, state = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, initial_state=init_state, time_major=False)
-            print(outputs_tensor)
-            print(state)
+            #print(outputs_tensor)
+            #print(state)
             outputs_state_tensor = outputs_tensor[:, -1, :]
             self.outputs_state_tensor = outputs_state_tensor
             self.state_tensor = outputs_state_tensor
@@ -69,23 +69,23 @@ class Model():
 
         # flatten it
         seq_output_final = tf.reshape(seq_output, [-1, self.dim_embedding])
-        print('seq_output.shape: ', seq_output.shape)
-        print('seq_output_final.shape: ', seq_output_final.shape)
+        #print('seq_output.shape: ', seq_output.shape)
+        #print('seq_output_final.shape: ', seq_output_final.shape)
 
         with tf.variable_scope('softmax'):
             W = tf.get_variable('W', [128, self.num_words], 
                                 initializer=tf.random_normal_initializer(stddev=0.01))
             bias = tf.get_variable('b', [self.num_words], initializer=tf.constant_initializer(0.0))
-        logits = tf.matmul(seq_output_final, W) + bias
-        print('outputs_state_tensor.shape: ', outputs_state_tensor.shape)
-        print('logits.shape: ', logits.shape)
+            logits = tf.matmul(seq_output_final, W) + bias
+        #print('outputs_state_tensor.shape: ', outputs_state_tensor.shape)
+        #print('logits.shape: ', logits.shape)
 
         tf.summary.histogram('logits', logits)
 
         self.predictions = tf.nn.softmax(logits, name='predictions')
 
         y_one_hot = tf.one_hot(self.Y, self.num_words)
-        print('y_one_hot.shape: ', y_one_hot.shape)
+        #print('y_one_hot.shape: ', y_one_hot.shape)
         y_reshaped = tf.reshape(y_one_hot, logits.get_shape())
         loss = tf.nn.softmax_cross_entropy_with_logits(
             logits=logits, labels=y_reshaped)
