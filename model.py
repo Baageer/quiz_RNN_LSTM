@@ -57,9 +57,9 @@ class Model():
             rnn_inputs = tf.one_hot(self.X, self.num_words)
             #print('rnn_inputs: ', rnn_inputs.shape)
 
-            outputs_tensor, state = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, initial_state=init_state, time_major=False)
+            outputs_tensor, final_state = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, initial_state=init_state, time_major=False)
             #print(outputs_tensor)
-            #print(state)
+            #print(final_state)
             outputs_state_tensor = outputs_tensor[:, -1, :]
             self.outputs_state_tensor = outputs_state_tensor
             self.state_tensor = outputs_state_tensor
