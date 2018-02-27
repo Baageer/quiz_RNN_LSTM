@@ -50,19 +50,19 @@ class Model():
 
             cell = tf.nn.rnn_cell.MultiRNNCell(stacked_rnn, state_is_tuple=True)
 
-            init_state = cell.zero_state(self.batch_size, dtype=tf.float32)
+            self.init_state = cell.zero_state(self.batch_size, dtype=tf.float32)
 
             #print('xxxxxxxx', self.X)
             #print('yyyyyyyy', self.Y)
             rnn_inputs = tf.one_hot(self.X, self.num_words)
             #print('rnn_inputs: ', rnn_inputs.shape)
-
-            outputs_tensor, final_state = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, initial_state=init_state, time_major=False)
+            state = self.init_state
+            outputs_tensor, state = tf.nn.dynamic_rnn(cell, inputs=rnn_inputs, initial_state=state, time_major=False)
             #print(outputs_tensor)
-            #print(final_state)
+            #print(state)
             outputs_state_tensor = outputs_tensor[:, -1, :]
             self.outputs_state_tensor = outputs_state_tensor
-            self.state_tensor = outputs_state_tensor
+            self.final_state = state
 
         # concate every time step
         seq_output = tf.concat(outputs_tensor, 1)

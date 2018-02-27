@@ -50,17 +50,17 @@ with tf.Session() as sess:
         exit(0)
 
     for title in titles:
-        #state = sess.run(model.state_tensor)
+        state = sess.run(model.init_state)
         # feed title
         for head in title:
             input = utils.index_data(np.array([[head]]), dictionary)
 
             feed_dict = {model.X: input,
-                         #model.state_tensor: state,
+                         model.init_state: state,
                          model.keep_prob: 1.0}
 
             pred, state = sess.run(
-                [model.predictions, model.outputs_state_tensor], feed_dict=feed_dict)
+                [model.predictions, model.final_state], feed_dict=feed_dict)
 
         sentence = title
         word_index = pred[0].argsort()[-1]
@@ -68,11 +68,11 @@ with tf.Session() as sess:
         # generate sample
         for i in range(64):
             feed_dict = {model.X: [[word_index]],
-                         model.state_tensor: state,
+                         model.init_state: state,
                          model.keep_prob: 1.0}
 
             pred, state = sess.run(
-                [model.predictions, model.outputs_state_tensor], feed_dict=feed_dict)
+                [model.predictions, model.final_state], feed_dict=feed_dict)
 
             word_index = pred[0].argsort()[-1]
             word = np.take(reverse_list, word_index)
