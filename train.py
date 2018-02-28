@@ -59,7 +59,7 @@ with tf.Session() as sess:
             feed_dict={}
             feed_dict[model.X] = dl[0]
             feed_dict[model.Y] = dl[1]
-            feed_dict[model.keep_prob] = 0.75
+            feed_dict[model.keep_prob] = 0.9
             feed_dict[model.init_state] = state
 
             gs, _, state, l, summary_string = sess.run(
