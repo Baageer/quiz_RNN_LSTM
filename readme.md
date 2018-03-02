@@ -13,7 +13,7 @@
 
 ​      向量之间的距离也有一定线性关系   十、百、千、万
 
-![tsne1](F:\GitHub\quiz_RNN_LSTM\tsne1.png)
+![tsne1](https://github.com/Baageer/quiz_RNN_LSTM/blob/master/tsne1.png)
 
 
 ### 二、RNN训练部分
